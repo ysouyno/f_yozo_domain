@@ -15,7 +15,7 @@ fn check_ping() -> Result<(), std::io::Error> {
     } else {
         Err(std::io::Error::new(
             std::io::ErrorKind::Other,
-            "Network disconnected.",
+            "Network is unreachable.",
         ))
     }
 }
@@ -27,7 +27,7 @@ fn main() {
         if let Err(e) = check_ping() {
             Toast::new(Toast::POWERSHELL_APP_ID)
                 .title(e.to_string().as_str())
-                .text1(format!("Call logon.exe now. times: {}", count).as_str())
+                .text1(format!("Run logon.exe now. times: {}", count).as_str())
                 .sound(Some(Sound::SMS))
                 .duration(Duration::Short)
                 .show()
@@ -37,7 +37,7 @@ fn main() {
                 .args(["/c", "call", "D:\\dnld\\logon.exe"])
                 .stdout(process::Stdio::piped())
                 .spawn()
-                .expect("Failed to exec logon.exe");
+                .expect("Failed to run logon.exe");
 
             count += 1;
         }
