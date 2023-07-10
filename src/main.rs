@@ -1,9 +1,12 @@
+#![windows_subsystem = "windows"]
+
 extern crate winrt_notification;
-use std::process;
+use std::{os::windows::process::CommandExt, process};
 use winrt_notification::{Duration, Sound, Toast};
 
 fn check_ping() -> Result<(), std::io::Error> {
     let child = process::Command::new("cmd")
+        .creation_flags(0x8000000)
         .args(["/c", "call", "ping", "www.baidu.com"])
         .stdout(process::Stdio::piped())
         .spawn()
@@ -34,6 +37,7 @@ fn main() {
                 .expect("unable to toast");
 
             process::Command::new("cmd")
+                .creation_flags(0x80000000)
                 .args(["/c", "call", "D:\\dnld\\logon.exe"])
                 .stdout(process::Stdio::piped())
                 .spawn()
